@@ -15,26 +15,64 @@ class block_test extends block_list {
     return $this->content;
   }
  global $DB, $USER, $CFG, $PAGE, $COURSE; 
- $courseid = $COURSE->id;
+ $idCurso = $COURSE->id; //id del curso actual 
+ $idProf = $USER->id; // id del usuario
   $this->content         = new stdClass;
   $this->content->items  = array();
   $this->content->icons  = array();
   //$this->content->footer = 'Footer here...';
+   $connect = mysql_connect("localhost","root", "root");
+            if (!$connect) {
+                die(mysql_error());
+            }
+            mysql_select_db("moodle");
+            $results5 = mysql_query("SELECT 
+	c.id, 
+	c.shortname, 
+	u.id, 
+	u.username, 
+	CONCAT(u.firstname, ' ', u.lastname) AS name 
+FROM 
+	mdl_course c 
+	LEFT OUTER JOIN mdl_context cx ON c.id = cx.instanceid 
+	LEFT OUTER JOIN mdl_role_assignments ra ON cx.id = ra.contextid 
+	AND ra.roleid = '3' 
+	LEFT OUTER JOIN mdl_user u ON ra.userid = u.id 
+WHERE 
+	cx.contextlevel = '50' 
+	AND c.id = $idCurso
+        AND u.id =$idProf");
+            if (mysql_num_rows($results5)==1 ) {
+  if ($courseid==1){
   $this->content->items[0] = html_writer::tag('a', 'Información de la cuenta', array('href' => 'http://localhost:8888/moodle/local/facebook/connect.php'));
   $this->content->icons[0] = html_writer::empty_tag('img', array('src' => 'http://localhost:8888/moodle/blocks/test/fa-file.png', 'class' => 'icon'));
   $this->content->items[1] = html_writer::tag('a', 'Ir a la aplicación', array('href' => 'https://apps.facebook.com/webcursosuai/'));
   $this->content->icons[1] = html_writer::empty_tag('img', array('src' => 'http://localhost:8888/moodle/blocks/test/fa-file.png', 'class' => 'icon'));
   $this->content->items[2] = html_writer::tag('a', 'Editar notificaciones', array('href' => 'http://webcursos.uai.cl/message/edit.php'));
   $this->content->icons[2] = html_writer::empty_tag('img', array('src' => 'http://localhost:8888/moodle/blocks/test/fa-file.png', 'class' => 'icon'));
-  $this->content->items[3] = html_writer::tag('a', 'Ver alumnos inscritos', array('href' => '/facebook/ver.php?id='.$courseid));
+  }
+  else {
+      $this->content->items[0] = html_writer::tag('a', 'Información de la cuenta', array('href' => 'http://localhost:8888/moodle/local/facebook/connect.php'));
+  $this->content->icons[0] = html_writer::empty_tag('img', array('src' => 'http://localhost:8888/moodle/blocks/test/fa-file.png', 'class' => 'icon'));
+  $this->content->items[1] = html_writer::tag('a', 'Ir a la aplicación', array('href' => 'https://apps.facebook.com/webcursosuai/'));
+  $this->content->icons[1] = html_writer::empty_tag('img', array('src' => 'http://localhost:8888/moodle/blocks/test/fa-file.png', 'class' => 'icon'));
+  $this->content->items[2] = html_writer::tag('a', 'Editar notificaciones', array('href' => 'http://webcursos.uai.cl/message/edit.php'));
+  $this->content->icons[2] = html_writer::empty_tag('img', array('src' => 'http://localhost:8888/moodle/blocks/test/fa-file.png', 'class' => 'icon'));
+  $this->content->items[3] = html_writer::tag('a', 'Ver alumnos inscritos', array('href' => '/moodle/local/facebook/ver.php?id='.$idCurso));
   $this->content->icons[3] = html_writer::empty_tag('img', array('src' => 'http://localhost:8888/moodle/blocks/test/fa-file.png', 'class' => 'icon'));
-  $this->content->items[4] = html_writer::tag('a', 'Enviar Invitación', array('href' => '/moodle/local/facebook/revisar.php?id='.$courseid));
+  $this->content->items[4] = html_writer::tag('a', 'Enviar Invitación', array('href' => '/moodle/local/facebook/revisar.php?id='.$idCurso));
   $this->content->icons[4] = html_writer::empty_tag('img', array('src' => 'http://localhost:8888/moodle/blocks/test/fa-file.png', 'class' => 'icon'));
-$this->content->items[5] = html_writer::tag('a', $query_string, array('href' => $query_string));
-  $this->content->icons[5] = html_writer::empty_tag('img', array('src' => 'http://localhost:8888/moodle/blocks/test/fa-file.png', 'class' => 'icon'));
-  
-echo "$coursename";
-// Add more list items here
+  }
+            }
+else {
+     $this->content->items[0] = html_writer::tag('a', 'Información de la cuenta', array('href' => 'http://localhost:8888/moodle/local/facebook/connect.php'));
+  $this->content->icons[0] = html_writer::empty_tag('img', array('src' => 'http://localhost:8888/moodle/blocks/test/fa-file.png', 'class' => 'icon'));
+  $this->content->items[1] = html_writer::tag('a', 'Ir a la aplicación', array('href' => 'https://apps.facebook.com/webcursosuai/'));
+  $this->content->icons[1] = html_writer::empty_tag('img', array('src' => 'http://localhost:8888/moodle/blocks/test/fa-file.png', 'class' => 'icon'));
+  $this->content->items[2] = html_writer::tag('a', 'Editar notificaciones', array('href' => 'http://webcursos.uai.cl/message/edit.php'));
+  $this->content->icons[2] = html_writer::empty_tag('img', array('src' => 'http://localhost:8888/moodle/blocks/test/fa-file.png', 'class' => 'icon'));
+    
+}
  
   return $this->content;
 }
