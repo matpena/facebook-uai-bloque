@@ -20,7 +20,7 @@ class block_test extends block_list {
   $this->content         = new stdClass;
   $this->content->items  = array();
   $this->content->icons  = array();
-  //$this->content->footer = 'Footer here....';   
+  //$this->content->footer = 'Footer here...';   
 /*             $results5 = $DB->get_records_sql("SELECT 
 	c.id, 
 	c.shortname, 
