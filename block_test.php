@@ -21,23 +21,8 @@ class block_test extends block_list {
   $this->content->items  = array();
   $this->content->icons  = array();
   //$this->content->footer = 'Footer here...';   
-/*             $results5 = $DB->get_records_sql("SELECT 
-	c.id, 
-	c.shortname, 
-	u.id, 
-	u.username, 
-	CONCAT(u.firstname, ' ', u.lastname) AS name 
-FROM 
-	{mdl_course c} 
-	{LEFT OUTER JOIN mdl_context cx ON c.id = cx.instanceid }
-	{LEFT OUTER JOIN mdl_role_assignments ra ON cx.id = ra.contextid} 
-	{AND ra.roleid = '3' }
-	{LEFT OUTER JOIN mdl_user u ON ra.userid = u.id }
-WHERE 
-	cx.contextlevel = '50' 
-	AND c.id = :idCurso
-        AND u.id =:idProf", array('idCurso' => $idCurso, 'idProf' => $idProf)); */
-            
+
+
             $context = context_course::instance($COURSE->id);
             if(has_capability('mod/assignment:addinstance', $context)) {
             	// I have a teacher in front of me
@@ -60,13 +45,10 @@ WHERE
             		$this->content->icons[3] = html_writer::empty_tag('img', array('src' => $CFG->wwwroot.'/blocks/test/fa-file.png', 'class' => 'icon'));
             		$this->content->items[4] = html_writer::tag('a', 'Enviar Invitación', array('href' => $CFG->wwwroot.'/local/facebook/revisar.php?id='.$idCurso));
             		$this->content->icons[4] = html_writer::empty_tag('img', array('src' => $CFG->wwwroot.'/blocks/test/fa-file.png', 'class' => 'icon'));
-            }
-            if (mysql_num_rows($results5)==1 ) {
-
-            }
+            }    
             }
 else {
-     $this->content->items[0] = html_writer::tag('a', 'Información de la cuenta', array('href' => 'http://localhost:8888/moodle/local/facebook/connect.php'));
+  $this->content->items[0] = html_writer::tag('a', 'Información de la cuenta', array('href' => $CFG->wwwroot.'/local/facebook/connect.php'));
   $this->content->icons[0] = html_writer::empty_tag('img', array('src' => $CFG->wwwroot.'/blocks/test/fa-file.png', 'class' => 'icon'));
   $this->content->items[1] = html_writer::tag('a', 'Ir a la aplicación', array('href' => 'https://apps.facebook.com/webcursosuai/'));
   $this->content->icons[1] = html_writer::empty_tag('img', array('src' => $CFG->wwwroot.'/blocks/test/fa-file.png', 'class' => 'icon'));
